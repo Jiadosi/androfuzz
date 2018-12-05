@@ -14,6 +14,10 @@ from androguard.cli import export_apps_to_format
 def get_parser():
     parser = ArgumentParser(description="Decompile an APK and create Control Flow Graphs")
 
+    #dosi
+    parser.add_argument("--smali", "-s", help = "path to smali dir")
+    #----
+
     parser.add_argument("--version", "-v", action="store_true", default=False,
             help="Print androguard version and exit")
     parser.add_argument("--input", "-i",
@@ -59,5 +63,5 @@ if __name__ == "__main__":
     s = session.Session()
     with open(fname, "rb") as fd:
         s.add(fname, fd.read())
-    export_apps_to_format(fname, s, args.output, args.limit,
+    export_apps_to_format(fname, s, args.output, args.smali, args.limit,
                           args.jar, args.decompiler, args.format)
