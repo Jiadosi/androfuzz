@@ -164,6 +164,7 @@ def _write_gml(G, path):
 def export_apps_to_format(filename,
                           s,
                           output,
+                          smali,
                           methods_filter=None,
                           jar=None,
                           decompiler_type=None,
@@ -172,7 +173,7 @@ def export_apps_to_format(filename,
     from androguard.core.bytecodes import dvm
     from androguard.core.bytecode import method2dot, method2format
     from androguard.decompiler import decompiler
-    print("Dump information %s in %s" % (filename, output))
+    #print("Dump information %s in %s" % (filename, output))
 
     if not os.path.exists(output):
         print("Create directory %s" % output)
@@ -234,9 +235,9 @@ def export_apps_to_format(filename,
             filename_class = os.path.join(output, filename_class)
             create_directory(filename_class)
 
-            print("Dump %s %s %s ..." % (method.get_class_name(),
-                                         method.get_name(),
-                                         method.get_descriptor()), end=' ')
+            #print("Dump %s %s %s ..." % (method.get_class_name(),
+            #                             method.get_name(),
+            #                             method.get_descriptor()), end=' ')
 
             filename = clean_file_name(os.path.join(filename_class, method.get_short_string()))
 
@@ -258,8 +259,8 @@ def export_apps_to_format(filename,
                 dump_classes.append(method.get_class_name())
             '''
             # Write SMALI like code
-            print("bytecodes ...", end=' ')
-            bytecode_buff = dvm.get_bytecodes_method(vm, vmx, method)
+            #print("bytecodes ...", end=' ')
+            bytecode_buff = dvm.get_bytecodes_method(vm, vmx, method, smali)
             '''dosi
             with open(filename + ".ag", "w") as fd:
                 fd.write(bytecode_buff)

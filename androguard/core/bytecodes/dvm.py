@@ -8554,9 +8554,9 @@ def get_params_dosi(proto):
     else:
         return 0
 
-def get_bytecodes_method(dex_object, ana_object, method):
+def get_bytecodes_method(dex_object, ana_object, method, smali):
     mx = ana_object.get_method(method)
-    return get_bytecodes_methodx(method, mx)
+    return get_bytecodes_methodx(method, mx, smali)
 
 #dosi modified
 #open the smali file of the class of this method, insert instructions in the beginning and the end of every basicblock
@@ -8566,14 +8566,13 @@ def get_bytecodes_method(dex_object, ana_object, method):
 #method_access_flag: access flag of this method
 #method_smali_file_path: path of the smali file, return value of smali_instrument.is_smali_file
 #newfilepath: path of the new smali file, return value of smali_instrument.loc_method
-#smali_file: file object
-#local_registers_size: method.code.get_registers_size()
+#smali_file: target smali file object
 #smali_instrument.py needed
 
-def get_bytecodes_methodx(method, mx):
+def get_bytecodes_methodx(method, mx, smali):
 
     #dosi
-    from androguard.dosi import smali_instrument
+    import smali_instrument
     import os
     #----
 
@@ -8595,7 +8594,7 @@ def get_bytecodes_methodx(method, mx):
         method_name = method.get_name()
         method_descriptor = method.get_descriptor()
         method_access_flag = method.get_access_flags_string()
-        method_smali_file_path = smali_instrument.is_smali_file(method_class_name)
+        method_smali_file_path = smali_instrument.is_smali_file(method_class_name, smali)
         if method_smali_file_path:
             smali_file = open(method_smali_file_path, 'r') #read
             newfilepath = smali_instrument.loc_method(method_name, method_descriptor, method_access_flag, smali_file, method_smali_file_path) #return a path to the new smali file
@@ -8612,14 +8611,14 @@ def get_bytecodes_methodx(method, mx):
 
             #dosi: first and last ins(only opcode) of a basicblock, instrumentation
             #hmmmm, only instrument at first ins
-            print('\nbasicblock\n')
+            #print('\nbasicblock\n')
             first_ins = instructions[0].get_name()
             last_ins = instructions[-1].get_name()
             if first_ins == last_ins: #one line basicblock
-                smali_instrument.loc_basicblock(1, first_ins, smali_file, newfilepath)
+                smali_instrument.loc_basicblock(1, first_ins, smali_file, newfilepath) #1 for one line bb
             else:
-                smali_instrument.loc_basicblock(0, first_ins, smali_file, newfilepath)
-                smali_instrument.loc_basicblock(2, last_ins, smali_file, newfilepath)
+                smali_instrument.loc_basicblock(0, first_ins, smali_file, newfilepath) #0 for first ins
+                smali_instrument.loc_basicblock(2, last_ins, smali_file, newfilepath) #2 for last ins
             #----
 
             for ins in instructions:
@@ -8652,7 +8651,7 @@ def get_bytecodes_methodx(method, mx):
 
             i_buffer += bb_buffer + "\n" + ins_buffer + "\n"
 
-            #dosi: append the rest, close original smali file, rename new smali file
+        #dosi: append the rest, close original smali file, rename new smali file, replace the original one
         smali_instrument.append_rest_of_smali(smali_file, newfilepath)
         smali_file.close()
         os.rename(newfilepath, method_smali_file_path)
