@@ -2,9 +2,12 @@
 
 if [ ! $1 ] ;
 then
-    echo "\033[31msh run.sh [complete path to target apk] [complete path to the output]"
+    echo "\033[31msh run.sh [complete path to target apk] [complete path to the output dir]"
     exit 1;
 fi
+
+#Hmmmm, welcome word hhhh
+echo "\033[35m\n\tWelcome To APK-AFL-Fuzzer\n\033[0m"
 
 #reverse using apktool
 echo "\033[33mdosi: reverse target apk using apktool.jar ...\033[0m"
