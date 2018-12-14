@@ -19,10 +19,10 @@ echo "\033[33mdosi: reverse target apk using apktool.jar ...\033[0m"
 } 
 
 #moving own smali to the output smali dir
-smali_dir=$2smali/
+smali_dir=$2/smali/
 echo "\033[33mdosi: move my smali to $smali_dir ...\033[0m"
 {    
-    cp /home/dosi/fuzzapk/relative/androfuzz/Go0sLog.smali $smali_dir &&
+    cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/Go0sLog.smali $smali_dir &&
     echo "\033[33mdosi: done \033[0m"
 } || {
     echo "\033[31mdosi: oops! move failed \033[30m"
@@ -33,7 +33,7 @@ echo "\033[33mdosi: move my smali to $smali_dir ...\033[0m"
 cfg_dir=$2cfg/
 echo "\033[33mdosi: start instrumenting smali, this will take you several minutes ...\033[0m"
 {
-    python3 /home/dosi/fuzzapk/relative/androfuzz/androdd.py --input $1 --smali $smali_dir --output $cfg_dir &&
+    python3 /home/dosi/fuzzapk/relative/androfuzz/instrumentor/androdd.py --input $1 --smali $smali_dir --output $cfg_dir &&
     echo "\033[33mdosi: hooray! instrument finished \033[30m"
 } || {
     echo "\033[31mdosi: oops! instrument failed \033[30m"
