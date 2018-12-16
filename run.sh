@@ -19,7 +19,7 @@ echo "\033[33mdosi: reverse target apk using apktool.jar ...\033[0m"
 } 
 
 #moving own smali to the output smali dir
-smali_dir=$2/smali/
+smali_dir=$2smali/
 echo "\033[33mdosi: move my smali to $smali_dir ...\033[0m"
 {    
     cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/Go0sLog.smali $smali_dir &&

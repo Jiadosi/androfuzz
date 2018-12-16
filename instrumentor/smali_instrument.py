@@ -67,7 +67,8 @@ def loc_basicblock(flag, ins, method_class_smali_file, newfilepath):
     '''
     newfile = open(newfilepath, 'a') #append
     #TODO subline
-    subline = 'invoke-static {}, LGo0sLog;->Log()V'
+    #subline = 'invoke-static {}, LGo0sLog;->Log()V'
+    subline = 'invoke-static {}, Linstrument;->instrumentation()V'
     #TODO find lines in order is not ideal...
     #TODO ignore the value of the ins is not ideal, too...
     #print('ins:', ins)
