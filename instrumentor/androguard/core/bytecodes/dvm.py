@@ -8598,6 +8598,10 @@ def get_bytecodes_methodx(method, mx, smali):
         if method_smali_file_path:
             smali_file = open(method_smali_file_path, 'r') #read
             newfilepath = smali_instrument.loc_method(method_name, method_descriptor, method_access_flag, smali_file, method_smali_file_path) #return a path to the new smali file
+        else:
+            #no such smali file, can I just return??
+            return None;
+
         #----
 
         for i in basic_blocks:

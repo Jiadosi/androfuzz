@@ -22,7 +22,9 @@ echo "\033[33mdosi: reverse target apk using apktool.jar ...\033[0m"
 smali_dir=$2smali/
 echo "\033[33mdosi: move my smali to $smali_dir ...\033[0m"
 {    
-    cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/Go0sLog.smali $smali_dir &&
+    #cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/Go0sLog.smali $smali_dir &&
+    cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/instrument.smali $smali_dir &&
+    cp /home/dosi/fuzzapk/relative/androfuzz/instrumentor/Mem.smali $smali_dir &&
     echo "\033[33mdosi: done \033[0m"
 } || {
     echo "\033[31mdosi: oops! move failed \033[30m"
@@ -68,4 +70,4 @@ echo "\033[33mdosi: adb install new-sign.apk to your device ...\033[0m"
 
 #logcat, for debug
 echo "for testing-----"
-adb logcat -s "Go0s"
+adb logcat -s "DOSI"
